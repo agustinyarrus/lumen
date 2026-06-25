@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Lumen</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="empty">
+
+  <!-- bordes invisibles para redimensionar (frameless) -->
+  <div class="rsz rsz-t"  data-dir="t"></div>
+  <div class="rsz rsz-b"  data-dir="b"></div>
+  <div class="rsz rsz-l"  data-dir="l"></div>
+  <div class="rsz rsz-r"  data-dir="r"></div>
+  <div class="rsz rsz-tl" data-dir="tl"></div>
+  <div class="rsz rsz-tr" data-dir="tr"></div>
+  <div class="rsz rsz-bl" data-dir="bl"></div>
+  <div class="rsz rsz-br" data-dir="br"></div>
+
+  <!-- barra de titulo propia -->
+  <header id="titlebar">
+    <div class="tb-left">
+      <span class="mark" aria-hidden="true"></span>
+      <span class="wordmark">lumen</span>
+    </div>
+    <div class="tb-center" id="caption">
+      <span class="name" id="capName"></span>
+      <span class="dot" id="capDot">·</span>
+      <span class="count" id="capCount"></span>
+    </div>
+    <div class="tb-right">
+      <button class="winbtn" id="btnFit" title="Ajustar ventana a la imagen" tabindex="-1">
+        <svg width="13" height="13" viewBox="0 0 14 14"><path d="M2 4.7V2H4.7"/><path d="M9.3 12H12V9.3"/><rect x="4.4" y="4.4" width="5.2" height="5.2" rx="1.2"/></svg>
+      </button>
+      <button class="winbtn" id="btnMin" title="Minimizar" tabindex="-1">
+        <svg width="11" height="11" viewBox="0 0 11 11"><line x1="1.5" y1="5.5" x2="9.5" y2="5.5"/></svg>
+      </button>
+      <button class="winbtn" id="btnMax" title="Maximizar" tabindex="-1">
+        <svg class="ico-max" width="11" height="11" viewBox="0 0 11 11"><rect x="1.5" y="1.5" width="8" height="8" rx="1.2"/></svg>
+        <svg class="ico-rst" width="11" height="11" viewBox="0 0 11 11"><rect x="1.5" y="3" width="6.5" height="6.5" rx="1.1"/><path d="M3.6 3V2.2a1 1 0 0 1 1-1h4.2a1 1 0 0 1 1 1v4.2a1 1 0 0 1-1 1H8.2"/></svg>
+      </button>
+      <button class="winbtn winbtn-close" id="btnClose" title="Cerrar" tabindex="-1">
+        <svg width="11" height="11" viewBox="0 0 11 11"><line x1="1.8" y1="1.8" x2="9.2" y2="9.2"/><line x1="9.2" y1="1.8" x2="1.8" y2="9.2"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- escenario -->
+  <main id="stage">
+    <div id="ambient"></div>
+
+    <div id="canvas">
+      <img id="photo" alt="" draggable="false">
+    </div>
+
+    <!-- navegacion por bordes -->
+    <button class="edge edge-prev" id="navPrev" tabindex="-1" aria-label="Anterior">
+      <svg width="26" height="26" viewBox="0 0 24 24"><polyline points="15 5 8 12 15 19"/></svg>
+    </button>
+    <button class="edge edge-next" id="navNext" tabindex="-1" aria-label="Siguiente">
+      <svg width="26" height="26" viewBox="0 0 24 24"><polyline points="9 5 16 12 9 19"/></svg>
+    </button>
+
+    <!-- HUD inferior -->
+    <div id="hud">
+      <span id="hudCount"></span>
+      <span class="hud-sep" id="hudSep"></span>
+      <span id="hudZoom"></span>
+    </div>
+
+    <!-- estado vacio -->
+    <div id="empty">
+      <div class="empty-mark" aria-hidden="true">
+        <svg width="76" height="76" viewBox="0 0 100 100">
+          <circle class="iris-ring" cx="50" cy="50" r="34"/>
+          <g class="iris-blades">
+            <path d="M50 18 L67 30 L50 50 Z"/>
+            <path d="M82 50 L70 67 L50 50 Z"/>
+            <path d="M50 82 L33 70 L50 50 Z"/>
+            <path d="M18 50 L30 33 L50 50 Z"/>
+            <path d="M68 22 L78 42 L50 50 Z"/>
+            <path d="M78 68 L58 78 L50 50 Z"/>
+            <path d="M32 78 L22 58 L50 50 Z"/>
+            <path d="M22 32 L42 22 L50 50 Z"/>
+          </g>
+          <circle class="iris-core" cx="50" cy="50" r="7"/>
+        </svg>
+      </div>
+      <div class="empty-title">Arrastrá una imagen</div>
+      <div class="empty-row">
+        <button id="btnOpen" class="open-btn">Abrir<span class="kbd">Ctrl O</span></button>
+      </div>
+      <div class="empty-hints">
+        <span><b>← →</b> navegar</span>
+        <span><b>rueda</b> zoom</span>
+        <span><b>F</b> pantalla completa</span>
+      </div>
+    </div>
+
+    <!-- error de carga -->
+    <div id="toast"></div>
+  </main>
+
+<script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# binarios compilados — regenerar con .\build.ps1
+lumen.exe
+lumen-debug.exe
+
+# recurso de icono generado desde lumen.ico — lo crea build.ps1
+rsrc.syso
+
+# temporales
+*.log
+*.tmp
+
+# imagen suelta de pruebas (no va al repo)
+docs/empty.png
