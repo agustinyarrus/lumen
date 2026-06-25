@@ -46,18 +46,7 @@ svg{ display:block; }
   -webkit-app-region:drag; app-region:drag;
   user-select:none;
 }
-.tb-left{ display:flex; align-items:center; gap:9px; padding-left:14px; min-width:0; }
-.mark{
-  width:13px; height:13px; border-radius:50%;
-  background:
-    radial-gradient(circle at 34% 32%, #cdd7ff 0%, var(--accent) 38%, #2b3a66 78%, #11203f 100%);
-  box-shadow:0 0 11px -1px rgba(122,162,247,.55), inset 0 0 3px rgba(255,255,255,.35);
-  flex:none;
-}
-.wordmark{
-  font-size:11px; font-weight:300; letter-spacing:3.5px; color:var(--fg-faint);
-  text-transform:lowercase; text-indent:1px;
-}
+.tb-left{ min-width:0; } /* vacío: sólo balancea el grid para centrar el caption */
 
 .tb-center{
   display:flex; align-items:center; gap:8px; min-width:0;
