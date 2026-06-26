@@ -11,6 +11,9 @@ El reemplazo liviano del visor de fotos: abre al instante, sin distracciones. Un
 ![WebView2](https://img.shields.io/badge/WebView2-frameless-7AA2F7)
 ![License](https://img.shields.io/badge/License-MIT-9ECE6A)
 
+[![Descargar](https://img.shields.io/badge/Descargar-Setup_%2B_Portable-7AA2F7?style=for-the-badge&logo=github&logoColor=white)](https://github.com/agustinyarrus/lumen/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/agustinyarrus/lumen/total?style=for-the-badge&color=9ECE6A&label=descargas)](https://github.com/agustinyarrus/lumen/releases)
+
 <img src="docs/screenshot.png" alt="Lumen" width="820">
 
 </div>
