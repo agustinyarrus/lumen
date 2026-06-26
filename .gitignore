@@ -11,3 +11,6 @@ rsrc.syso
 
 # imagen suelta de pruebas (no va al repo)
 docs/empty.png
+
+# instaladores compilados (van al Release)
+dist/
