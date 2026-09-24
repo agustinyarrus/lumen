@@ -14,9 +14,9 @@ if ((Test-Path lumen.ico) -and -not (Test-Path rsrc.syso)) {
 }
 
 if ($Debug) {
-  go build -o lumen-debug.exe .
+  go build -trimpath -o lumen-debug.exe .
   Write-Host "OK -> $(Resolve-Path lumen-debug.exe)   (corré con LUMEN_DEBUG=1 para logs)"
 } else {
-  go build -ldflags="-H windowsgui -s -w" -o lumen.exe .
+  go build -trimpath -ldflags="-H windowsgui -s -w" -o lumen.exe .
   Write-Host "OK -> $(Resolve-Path lumen.exe)"
 }
