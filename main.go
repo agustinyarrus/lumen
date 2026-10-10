@@ -41,6 +41,8 @@ import (
 	_ "golang.org/x/image/webp"
 	_ "image/gif"
 	_ "image/jpeg"
+
+	"lumen/i18n"
 )
 
 var debugLog = os.Getenv("LUMEN_DEBUG") != ""
@@ -500,6 +502,8 @@ func main() {
 	scale := float64(getDpiForSystem()) / 96.0
 	uiScale = scale
 	loadConfig()
+	// idioma: el elegido en la barra, LUMEN_LANG o el de Windows (ver i18n): antes de cualquier texto
+	i18n.Resolve(i18n.Choice{Setting: langSetting(), AppEnv: "LUMEN_LANG"})
 
 	// Ruta de arranque: argumento de linea de comandos ("Abrir con Lumen" / lumen.exe foto.jpg).
 	initialPath := ""
@@ -584,7 +588,7 @@ func main() {
 		pUnhookWindowsHookEx.Call(cbtHook)
 	}
 	if w == nil {
-		panic("no se pudo crear WebView2")
+		panic(i18n.T("no se pudo crear WebView2"))
 	}
 	defer w.Destroy()
 
@@ -686,6 +690,9 @@ func main() {
 	if debugLog {
 		initJS += "window.__LUMEN_DEBUG__=true;"
 	}
+	// un solo catálogo por app: el mismo en.json que usa el Go viaja a la página (ui/i18n.js)
+	initJS += "window.__I18N_EN__=" + string(i18n.CatalogJSON()) + ";"
+	initJS += "window.__I18N_LANG__=\"" + i18n.Current().String() + "\";"
 	// Instancia única: cuando otra invocación manda una imagen, la mostramos en ESTA ventana
 	// (sin abrir otra) y la traemos al frente.
 	onShow = func(p string) {
@@ -748,6 +755,28 @@ func startServer(initialPath string) string {
 	// ruta inicial (argumento de CLI) que la pagina consulta al cargar
 	mux.HandleFunc("/api/initial", func(wr http.ResponseWriter, r *http.Request) {
 		writeJSON(wr, map[string]string{"path": initialPath})
+	})
+
+	// idioma: el botón de la barra (o la tecla L) lo cambia; queda guardado en config.json y el Go
+	// (el diálogo de abrir) también pasa a hablar el idioma nuevo.
+	mux.HandleFunc("/api/lang", func(wr http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			var body struct {
+				Lang string `json:"lang"`
+			}
+			if json.NewDecoder(http.MaxBytesReader(wr, r.Body, 1<<10)).Decode(&body) != nil {
+				wr.WriteHeader(http.StatusBadRequest)
+				return
+			}
+			l, ok := i18n.Parse(body.Lang)
+			if !ok {
+				wr.WriteHeader(http.StatusBadRequest)
+				return
+			}
+			setLangSetting(l.String())
+			i18n.Set(l)
+		}
+		writeJSON(wr, map[string]string{"lang": i18n.Current().String()})
 	})
 
 	// instancia única: otra invocación de lumen.exe nos manda acá la imagen a mostrar.

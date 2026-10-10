@@ -10,6 +10,8 @@ import (
 	"unsafe"
 
 	"golang.org/x/sys/windows"
+
+	"lumen/i18n"
 )
 
 const ptrSize = unsafe.Sizeof(uintptr(0))
@@ -129,11 +131,11 @@ func pickImage(owner uintptr) string {
 	comCall(dlg, mSetOptions, uintptr(opts|fosForceFS))
 
 	specs := []comdlgFilterSpec{
-		{utf16Ptr("Imágenes"), utf16Ptr("*.jpg;*.jpeg;*.jpe;*.jfif;*.jif;*.png;*.apng;*.gif;*.webp;*.avif;*.bmp;*.dib;*.ico;*.cur;*.svg;*.tif;*.tiff")},
-		{utf16Ptr("Todos los archivos"), utf16Ptr("*.*")},
+		{utf16Ptr(i18n.T("Imágenes")), utf16Ptr("*.jpg;*.jpeg;*.jpe;*.jfif;*.jif;*.png;*.apng;*.gif;*.webp;*.avif;*.bmp;*.dib;*.ico;*.cur;*.svg;*.tif;*.tiff")},
+		{utf16Ptr(i18n.T("Todos los archivos")), utf16Ptr("*.*")},
 	}
 	comCall(dlg, mSetFileTypes, uintptr(len(specs)), uintptr(unsafe.Pointer(&specs[0])))
-	comCall(dlg, mSetTitle, utf16Ptr("Abrir imagen"))
+	comCall(dlg, mSetTitle, utf16Ptr(i18n.T("Abrir imagen")))
 
 	if comCall(dlg, mShow, owner) < 0 {
 		return "" // cancelado por el usuario (ERROR_CANCELLED)

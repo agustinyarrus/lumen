@@ -1,0 +1,26 @@
+{
+  "no se pudo crear WebView2": "could not create WebView2",
+  "Imágenes": "Images",
+  "Todos los archivos": "All files",
+  "Abrir imagen": "Open image",
+
+  "Minimizar": "Minimize",
+  "Maximizar": "Maximize",
+  "Cerrar": "Close",
+  "Anterior": "Previous",
+  "Siguiente": "Next",
+  "Arrastrá una imagen": "Drop an image",
+  "Abrir": "Open",
+  "navegar": "browse",
+  "rueda": "wheel",
+  "pantalla completa": "full screen",
+  "idioma": "language",
+
+  "No se pudo abrir": "Couldn't open it",
+  "Error al abrir": "Error opening it",
+  "No se pudo cargar {nombre}": "Couldn't load {nombre}",
+  "Ventana ajustada a la imagen (clic: conservar tamaño)": "Window fitted to the image (click: keep size)",
+  "Ajustar ventana a la imagen": "Fit window to the image",
+  "Idioma: {actual} · pasar a {otro} (L)": "Language: {actual} · switch to {otro} (L)",
+  "No se pudo cambiar el idioma": "Couldn't change the language"
+}

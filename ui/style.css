@@ -72,6 +72,11 @@ body.has-image .tb-center{ opacity:1; }
 .winbtn:hover{ background:rgba(255,255,255,.06); color:var(--fg); }
 .winbtn-close:hover{ background:rgba(247,118,142,.16); color:var(--danger); }
 .winbtn.on{ color:var(--accent); }              /* "ajustar a la imagen" activo */
+/* idioma: el código del idioma actual, en el gris de los íconos de al lado */
+.winbtn-lang span{ font-size:10px; font-weight:300; letter-spacing:1.6px; text-transform:uppercase;
+  line-height:1; padding-left:1.6px; /* compensa el espaciado de la última letra */ }
+/* los botones de la barra no se recorren con Tab: un clic no les deja el anillo de foco */
+.winbtn:focus, .edge:focus, .open-btn:focus{ outline:none; }
 .winbtn.on:hover{ background:rgba(122,162,247,.14); color:var(--accent); }
 .winbtn .ico-rst{ display:none; }
 body.maximized .winbtn .ico-max{ display:none; }

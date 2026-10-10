@@ -126,12 +126,12 @@ async function openPath(path) {
   try {
     const r = await fetch('/api/open?path=' + encodeURIComponent(path));
     const j = await r.json();
-    if (!j.ok || !j.images || !j.images.length) { toast('No se pudo abrir'); return; }
+    if (!j.ok || !j.images || !j.images.length) { toast(t('No se pudo abrir')); return; }
     state.srcs = j.images.map(fileURL);
     state.names = j.images.map(baseName);
     state.count = j.images.length;
     showIndex(typeof j.index === 'number' ? j.index : 0);
-  } catch (e) { toast('Error al abrir'); }
+  } catch (e) { toast(t('Error al abrir')); }
 }
 window.__lumenOpen = openPath;   // el host lo llama por Eval (dialogo / "abrir con")
 
@@ -169,7 +169,7 @@ function showIndex(i) {
   pre.onerror = () => {
     if (token !== loadToken) return;
     canvas.classList.remove('swap');
-    toast('No se pudo cargar ' + (state.names[state.idx] || ''));
+    toast(t('No se pudo cargar {nombre}', { nombre: state.names[state.idx] || '' }));
   };
   pre.src = src;
 }
@@ -269,7 +269,7 @@ const btnFit = $('btnFit');
 function updateFitBtn() {
   if (!btnFit) return;
   btnFit.classList.toggle('on', fitToImage);
-  btnFit.title = fitToImage ? 'Ventana ajustada a la imagen (clic: conservar tamaño)' : 'Ajustar ventana a la imagen';
+  btnFit.title = fitToImage ? t('Ventana ajustada a la imagen (clic: conservar tamaño)') : t('Ajustar ventana a la imagen');
 }
 updateFitBtn();
 if (btnFit) btnFit.addEventListener('click', () => {
@@ -278,6 +278,33 @@ if (btnFit) btnFit.addEventListener('click', () => {
   updateFitBtn();
   if (fitToImage && state.count) bridge('lumenFitTo', natW, natH);
 });
+
+// ---- idioma (castellano / inglés) ---------------------------------------
+// El botón muestra el idioma ACTUAL; tocarlo (o la tecla L) pasa al otro. El host lo guarda en
+// config.json, así el diálogo de abrir también cambia.
+const LANG_NAMES = { es: 'Español', en: 'English' };
+function paintLangButton() {
+  const cur = I18N.lang, next = cur === 'es' ? 'en' : 'es';
+  $('langCode').textContent = cur;
+  $('btnLang').title = t('Idioma: {actual} · pasar a {otro} (L)', { actual: LANG_NAMES[cur], otro: LANG_NAMES[next] });
+}
+let langBusy = false;   // un doble clic no manda dos cambios cruzados
+async function toggleLang() {
+  if (langBusy) return;
+  langBusy = true;
+  const next = I18N.lang === 'es' ? 'en' : 'es';
+  try {
+    const r = await fetch('/api/lang', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lang: next }),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    I18N.set((await r.json()).lang);
+  } catch (e) { window.__log('lang ' + e); toast(t('No se pudo cambiar el idioma')); }
+  finally { langBusy = false; }
+}
+window.addEventListener('i18n', () => { paintLangButton(); updateFitBtn(); });
+$('btnLang').addEventListener('click', () => toggleLang());
+paintLangButton();
 
 // ---- arrastre / redimension de la ventana frameless --------------------
 let lastTbDown = 0;
@@ -312,6 +339,7 @@ window.addEventListener('keydown', (e) => {
     case '-': case '_': e.preventDefault(); measure(); zoomAt(scale / 1.25, vw / 2, vh / 2, true); break;
     case '0': e.preventDefault(); if (state.count) { measure(); fitNow(); } break;
     case 'f': case 'F': case 'F11': e.preventDefault(); toggleFullscreen(); break;
+    case 'l': case 'L': e.preventDefault(); toggleLang(); break;
     case 'Enter': e.preventDefault(); toggleFullscreen(); break;
     case 'Escape':
       e.preventDefault();

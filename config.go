@@ -8,6 +8,7 @@ package main
 //
 //   fitToImage : al abrir/navegar, ¿ajustar la VENTANA al tamaño de la imagen? (si no, se conserva
 //                el tamaño de ventana y la imagen se ajusta adentro).
+//   lang       : idioma elegido con el botón de la barra ("es" / "en"); vacío = el de Windows.
 
 import (
 	"bytes"
@@ -18,7 +19,8 @@ import (
 )
 
 type appConfig struct {
-	FitToImage bool `json:"fitToImage"`
+	FitToImage bool   `json:"fitToImage"`
+	Lang       string `json:"lang,omitempty"` // "es", "en" o vacío (automático)
 }
 
 var (
@@ -64,6 +66,25 @@ func getFitToImage() bool {
 	gCfgMu.Lock()
 	defer gCfgMu.Unlock()
 	return gCfg.FitToImage
+}
+
+// langSetting es el idioma guardado ("" = automático, que decide Windows).
+func langSetting() string {
+	gCfgMu.Lock()
+	defer gCfgMu.Unlock()
+	return gCfg.Lang
+}
+
+// setLangSetting guarda la elección del usuario. Sólo "es" o "en": cualquier otra cosa vuelve a
+// automático, así un config.json editado a mano nunca deja la app en un idioma inexistente.
+func setLangSetting(code string) {
+	if code != "es" && code != "en" {
+		code = ""
+	}
+	gCfgMu.Lock()
+	defer gCfgMu.Unlock()
+	gCfg.Lang = code
+	saveConfigLocked()
 }
 
 func setFitToImage(on bool) {
