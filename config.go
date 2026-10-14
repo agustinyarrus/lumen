@@ -8,7 +8,7 @@ package main
 //
 //   fitToImage : al abrir/navegar, ¿ajustar la VENTANA al tamaño de la imagen? (si no, se conserva
 //                el tamaño de ventana y la imagen se ajusta adentro).
-//   lang       : idioma elegido con el botón de la barra ("es" / "en"); vacío = el de Windows.
+//   lang       : idioma elegido con el botón de la barra ("es" / "en"); vacío = inglés por defecto.
 
 import (
 	"bytes"
@@ -68,7 +68,7 @@ func getFitToImage() bool {
 	return gCfg.FitToImage
 }
 
-// langSetting es el idioma guardado ("" = automático, que decide Windows).
+// langSetting es el idioma guardado ("" = automático: inglés si nada más elige).
 func langSetting() string {
 	gCfgMu.Lock()
 	defer gCfgMu.Unlock()

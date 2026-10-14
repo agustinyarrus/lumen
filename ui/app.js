@@ -282,7 +282,7 @@ if (btnFit) btnFit.addEventListener('click', () => {
 // ---- idioma (castellano / inglés) ---------------------------------------
 // El botón muestra el idioma ACTUAL; tocarlo (o la tecla L) pasa al otro. El host lo guarda en
 // config.json, así el diálogo de abrir también cambia.
-const LANG_NAMES = { es: 'Español', en: 'English' };
+const LANG_NAMES = { en: 'English', es: 'Español' };
 function paintLangButton() {
   const cur = I18N.lang, next = cur === 'es' ? 'en' : 'es';
   $('langCode').textContent = cur;
